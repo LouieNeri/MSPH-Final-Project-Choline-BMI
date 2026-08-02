@@ -1,0 +1,63 @@
+---
+title: "Interim Memo 2"
+subtitle: "HPO 698, Summer 2026"
+author: "Louie Neri"
+date: "2026-07-10"
+format:
+  pdf:
+    toc: true
+---
+
+## Summary
+
+This memo reports progress at the end of the semester on the capstone project examining dietary choline intake, BMI, and liver enzyme levels in U.S. adults (NHANES August 2021 to August 2023). The project is on track and will continue through the fall. This memo is a checkpoint, not the final product: the question and design are settled, the data are obtained and cleaned, the analytic sample is characterized, and the analysis code is written. What remains is finalizing the Aim 2 decision, running and interpreting results, and writing up the findings.
+
+Progress is organized below against the four next steps set at the last checkpoint.
+
+Repository: <https://github.com/LouieNeri/MSPH-Final-Project-Choline-BMI>
+
+## Final Research Question
+
+Among U.S. adults, does the prevalence of dietary choline intake below the Adequate Intake (AI) differ by BMI category, and is the association between choline intake and liver enzyme levels (ALT, AST, GGT) modified by BMI?
+
+- **Aim 1 (primary):** whether the proportion of adults with choline intake below the AI differs by BMI category, stratified by sex and menopausal status.
+- **Aim 2 (conditional):** whether BMI modifies the association between choline intake and liver enzyme levels, attempted only if a pre-stated feasibility check is met.
+
+## Progress Against Planned Next Steps
+
+### 1. Preregistration and the transparency approach
+
+The prior plan was to preregister on OSF before analyzing the data. After drafting a full preregistration, I decided the formal OSF process was more burdensome than warranted for a project of this scope. Instead, I am keeping the work transparent through version-controlled, shared analysis code: the data pull, cleaning and exclusion rules, and every model are written out in scripts that anyone can inspect and rerun, in a public repository. The analytic decisions are visible in the code itself.
+
+The one commitment from the preregistration I am carrying forward is the discipline around Aim 2: it is treated as secondary to Aim 1, and the decision to fit the interaction is made from a feasibility check assessed on the choline and BMI distributions only, without examining the liver enzyme outcomes. This preserves the main protection preregistration was meant to provide.
+
+### 2. Obtain, clean, and merge the data; assess the analytic sample
+
+The NHANES August 2021 to August 2023 files were obtained directly through the `nhanesA` package, merged, and cleaned, with the study variables derived and inclusion/exclusion rules applied. Rows are not dropped; exclusions are stored as flags so the survey design can be declared on the full sample.
+
+Exclusions.
+
+| Stage | N |
+|---|---|
+| Full merged file | 11,933 |
+| Adults aged 20+ | 7,809 |
+| Aim 1 analytic sample | 4,238 |
+| Aim 2 analytic sample | 3,851 |
+
+The large drop into the Aim 1 sample is mostly participants without two valid dietary recall days, which is expected given that usual-intake estimation requires both days. The Aim 2 sample of 3,851 is comfortably large enough to support the planned models.
+
+*Inclusion criteria*: The Aim 1 sample includes non-pregnant, non-lactating adults aged 20 and older with two valid 24-hour dietary recalls and a measured BMI.
+
+*Exclusion criteria*: Participants with implausible energy intake on either recall day (below 500 or above 8,000 kcal/day for men; below 500 or above 5,500 for women) are excluded.
+
+The Aim 2 sample applies the same criteria and additionally requires a measured ALT value. It excludes participants with active hepatitis, self-reported liver disease, or heavy alcohol use (more than two drinks per day on average for men, more than one for women), because these conditions raise liver enzymes independently of diet and would otherwise confound the choline-enzyme association.
+
+### 3. Run Aim 1 (primary) and attempt Aim 2 if feasible
+
+The analysis code is written and runs against the cleaned data. Aim 1 estimates the weighted proportion below the AI by BMI category. The Aim 2 feasibility check and interaction models are coded and gated behind the feasibility rule. Finalizing the feasibility thresholds, running the models, and interpreting results is the main analytic work remaining for the fall.
+
+### 4. Draft the introduction
+
+I did not draft the introduction, as I spent most of my time ensuring that the data was set up correctly and to plan adequately for the project.
+
+
