@@ -17,7 +17,7 @@ des <- svydesign(
   nest = TRUE
 )
 
-# Aim 1: Sex and BMI category
+# Sex and BMI category
 
 # Counts below the AI by sex and BMI category
 sex_counts <- ana |>
@@ -105,10 +105,9 @@ p_aim1_sex_bmi <- ggplot(
     y = "% below choline AI",
     color = "Sex",
     title = "Prevalence of choline intake below the AI"
-  ) +
-  theme_minimal()
+  )
 
-# Aim 1: BMI category
+# By BMI category
 
 # Counts below the AI by BMI category
 bmi_counts <- ana |>
@@ -276,8 +275,7 @@ p_aim1_menopause <- ggplot(
     y = "% below choline AI",
     color = "Menopausal status",
     title = "Prevalence of choline intake below the AI among women"
-  ) +
-  theme_minimal()
+  )
 
 # Table 1: Baseline characteristics by sex
 
@@ -330,10 +328,6 @@ tbl_1 <- des |>
     all_stat_cols() ~
       "Unweighted n (weighted %) for categorical variables; weighted mean (SD) for continuous variables."
   )
-
-# Save outputs
-
-dir.create("output", showWarnings = FALSE, recursive = TRUE)
 
 # Aim 1 tables
 gt::gtsave(
