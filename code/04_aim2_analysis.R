@@ -97,7 +97,7 @@ tbl_1 <- enzyme_cells |>
   tab_header(
     title = "Table 1. Serum liver enzymes by BMI category and choline intake quartile",
     subtitle = paste0(
-      "US adults, NHANES August 2021–August 2023 (N = ",
+      "Aim 2 Sample: US adults, NHANES August 2021–August 2023 (N = ",
       scales::comma(n_total), ")"
     )
   ) |>
