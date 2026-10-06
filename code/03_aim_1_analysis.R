@@ -8,7 +8,7 @@ library(gtsummary)
 df <- readRDS("data/nhanes_L_analytic.rds")
 
 ana <- df |>
-  filter(in_aim1, bmi_cat != "underweight") |>
+  filter(in_aim1, bmi_cat != "Underweight") |>
   mutate(bmi_cat = fct_drop(bmi_cat))
 
 des <- svydesign(
@@ -23,17 +23,26 @@ des <- svydesign(
 
 # Counts below the AI by sex and BMI category
 sex_counts <- ana |>
-  filter(!is.na(below_ai), !is.na(sex), !is.na(bmi_cat)) |>
+  filter(!is.na(below_ai), 
+         !is.na(sex), 
+         !is.na(bmi_cat)) |>
   group_by(sex, bmi_cat) |>
   summarise(n_below_ai = sum(below_ai == 1), .groups = "drop")
 
 # Total sample size by sex
 sex_totals <- ana |>
-  filter(!is.na(below_ai), !is.na(sex), !is.na(bmi_cat)) |>
+  filter(!is.na(below_ai), 
+         !is.na(sex), 
+         !is.na(bmi_cat)) |>
   count(sex, name = "N")
 
-female_N <- sex_totals |> filter(sex == "female") |> pull(N)
-male_N <- sex_totals |> filter(sex == "male") |> pull(N)
+Female_N <- sex_totals |> 
+  filter(sex == "Female") |> 
+  pull(N)
+
+Male_N <- sex_totals |> 
+  filter(sex == "Male") |> 
+  pull(N)
 
 # Weighted prevalence and confidence intervals
 prev_sex_bmi <- svyby(
@@ -67,7 +76,7 @@ prev_sex_bmi <- svyby(
 table_sex_bmi <- prev_sex_bmi |>
   select(bmi_cat, sex, cell) |>
   pivot_wider(names_from = sex, values_from = cell) |>
-  select(bmi_cat, female, male)
+  select(bmi_cat, Female, Male)
 
 tbl_aim1 <- table_sex_bmi |>
   gt() |>
@@ -77,11 +86,11 @@ tbl_aim1 <- table_sex_bmi |>
   ) |>
   cols_label(
     bmi_cat = "BMI category",
-    female = md(paste0("Female<br>(N = ", scales::comma(female_N), ")")),
-    male = md(paste0("Male<br>(N = ", scales::comma(male_N), ")"))
+    Female = md(paste0("Female<br>(N = ", scales::comma(Female_N), ")")),
+    Male = md(paste0("Male<br>(N = ", scales::comma(Male_N), ")"))
   ) |>
   cols_align(align = "left", columns = bmi_cat) |>
-  cols_align(align = "center", columns = c(female, male)) |>
+  cols_align(align = "center", columns = c(Female, Male)) |>
   tab_options(
     table.font.size = px(13),
     heading.title.font.size = px(18),
@@ -113,13 +122,16 @@ p_aim1_sex_bmi <- ggplot(
 
 # Counts below the AI by BMI category
 bmi_counts <- ana |>
-  filter(!is.na(below_ai), !is.na(bmi_cat)) |>
+  filter(!is.na(below_ai), 
+         !is.na(bmi_cat)) |>
   group_by(bmi_cat) |>
-  summarise(n_below_ai = sum(below_ai == 1), .groups = "drop")
+  summarise(n_below_ai = sum(below_ai == 1), 
+            .groups = "drop")
 
 # Total analytic sample size
 bmi_N <- ana |>
-  filter(!is.na(below_ai), !is.na(bmi_cat)) |>
+  filter(!is.na(below_ai), 
+         !is.na(bmi_cat)) |>
   nrow()
 
 prev_bmi <- svyby(
@@ -183,7 +195,7 @@ p_aim1_bmi <- ggplot(prev_bmi, aes(x = bmi_cat, y = prevalence)) +
 # Aim 1: Women by menopause and BMI
 
 ana_f <- ana |>
-  filter(sex == "female", menopause %in% c("pre", "post"))
+  filter(sex == "Female", menopause %in% c("pre", "post"))
 
 des_f <- svydesign(
   ids = ~SDMVPSU,
@@ -195,17 +207,28 @@ des_f <- svydesign(
 
 # Counts below the AI by menopause status and BMI category
 menopause_counts <- ana_f |>
-  filter(!is.na(below_ai), !is.na(menopause), !is.na(bmi_cat)) |>
-  group_by(menopause, bmi_cat) |>
-  summarise(n_below_ai = sum(below_ai == 1), .groups = "drop")
+  filter(!is.na(below_ai), 
+         !is.na(menopause), 
+         !is.na(bmi_cat)) |>
+  group_by(menopause, 
+           bmi_cat) |>
+  summarise(n_below_ai = sum(below_ai == 1), 
+            .groups = "drop")
 
 # Total sample size by menopause status
 menopause_totals <- ana_f |>
-  filter(!is.na(below_ai), !is.na(menopause), !is.na(bmi_cat)) |>
+  filter(!is.na(below_ai), 
+         !is.na(menopause), 
+         !is.na(bmi_cat)) |>
   count(menopause, name = "N")
 
-pre_N <- menopause_totals |> filter(menopause == "pre") |> pull(N)
-post_N <- menopause_totals |> filter(menopause == "post") |> pull(N)
+pre_N <- menopause_totals |> 
+  filter(menopause == "pre") |> 
+  pull(N)
+
+post_N <- menopause_totals |> 
+  filter(menopause == "post") |> 
+  pull(N)
 
 prev_menopause <- svyby(
   ~below_ai,
@@ -236,7 +259,8 @@ prev_menopause <- svyby(
 
 table_menopause <- prev_menopause |>
   select(bmi_cat, menopause, cell) |>
-  pivot_wider(names_from = menopause, values_from = cell) |>
+  pivot_wider(names_from = menopause, 
+              values_from = cell) |>
   select(bmi_cat, pre, post)
 
 tbl_aim1_f <- table_menopause |>
@@ -315,12 +339,12 @@ tbl_1 <- des |>
     label ~ "**Characteristic**",
     stat_1 ~ paste0(
       "**Female, n = ",
-      sum(ana$sex == "female", na.rm = TRUE),
+      sum(ana$sex == "Female", na.rm = TRUE),
       "**"
     ),
     stat_2 ~ paste0(
       "**Male, n = ",
-      sum(ana$sex == "male", na.rm = TRUE),
+      sum(ana$sex == "Male", na.rm = TRUE),
       "**"
     ),
     stat_0 ~ paste0("**Overall, N = ", nrow(ana), "**")

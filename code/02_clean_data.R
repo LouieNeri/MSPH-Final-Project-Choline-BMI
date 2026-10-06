@@ -19,21 +19,21 @@ df <- df |>
     
     ## ---- sex ----
     sex = case_when(
-      chr(RIAGENDR) == "Male"   ~ "male",
-      chr(RIAGENDR) == "Female" ~ "female",
+      chr(RIAGENDR) == "Male"   ~ "Male",
+      chr(RIAGENDR) == "Female" ~ "Female",
       TRUE                      ~ NA_character_
     ),
     
     ## ---- BMI category ----
     bmi_cat = case_when(
-      BMXBMI < 18.5                ~ "underweight",
-      BMXBMI >= 18.5 & BMXBMI < 25 ~ "normal",
-      BMXBMI >= 25   & BMXBMI < 30 ~ "overweight",
-      BMXBMI >= 30                 ~ "obese",
+      BMXBMI < 18.5                ~ "Underweight",
+      BMXBMI >= 18.5 & BMXBMI < 25 ~ "Normal",
+      BMXBMI >= 25   & BMXBMI < 30 ~ "Overweight",
+      BMXBMI >= 30                 ~ "Obese",
       TRUE                         ~ NA_character_
     ),
     bmi_cat = factor(bmi_cat,
-                     levels = c("normal", "overweight", "obese", "underweight")),
+                     levels = c("Normal", "Overweight", "Obese", "Underweight")),
     
     ## ---- valid dietary recalls (NHANES reliability flags) ----
     day1_ok = chr(DR1DRSTZ) == "Reliable and met the minimum criteria",
@@ -44,8 +44,8 @@ df <- df |>
     
     ## ---- AI threshold and derived choline measures ----
     ai_threshold = case_when(
-      sex == "male"   ~ ai_men,
-      sex == "female" ~ ai_women,
+      sex == "Male"   ~ ai_men,
+      sex == "Female" ~ ai_women,
       TRUE            ~ NA_real_
     ),
     below_ai       = as.numeric(choline_mean < ai_threshold),  # 1 = below AI
@@ -56,7 +56,7 @@ df <- df |>
     
     ## ---- menopausal status (women only) ----
     menopause = case_when(
-      sex == "male"                                        ~ NA_character_,
+      sex == "Male"                                        ~ NA_character_,
       chr(RHD043) == "Menopause/Change of life"            ~ "post",
       chr(RHD043) == "Hysterectomy"                        ~ "hysterectomy",
       chr(RHQ031) == "Yes"                                 ~ "pre",
@@ -68,8 +68,8 @@ df <- df |>
     ## implausible energy intake (NA stays NA, handled in the flags below)
     excl_energy = case_when(
       is.na(energy_mean) | is.na(sex)                                  ~ NA,
-      sex == "male"   & (energy_mean < 500 | energy_mean > 8000)       ~ TRUE,
-      sex == "female" & (energy_mean < 500 | energy_mean > 5500)       ~ TRUE,
+      sex == "Male"   & (energy_mean < 500 | energy_mean > 8000)       ~ TRUE,
+      sex == "Female" & (energy_mean < 500 | energy_mean > 5500)       ~ TRUE,
       TRUE                                                             ~ FALSE
     ),
     
@@ -79,8 +79,8 @@ df <- df |>
     alq130_num = if_else(alq130_num %in% c(777, 999), NA_real_, alq130_num),
     heavy_alcohol = case_when(
       is.na(alq130_num) | is.na(sex)      ~ FALSE,   # no evidence of heavy use
-      sex == "male"   & alq130_num > 2    ~ TRUE,
-      sex == "female" & alq130_num > 1    ~ TRUE,
+      sex == "Male"   & alq130_num > 2    ~ TRUE,
+      sex == "Female" & alq130_num > 1    ~ TRUE,
       TRUE                                 ~ FALSE
     ),
     

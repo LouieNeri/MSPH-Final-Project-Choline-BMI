@@ -30,9 +30,16 @@ df <- df |>
         na.rm = TRUE
       ),
       include.lowest = TRUE,
-      labels = c("Q1 lowest", "Q2", "Q3", "Q4 highest")
+      labels = c("Q1 (Lowest)", "Q2", "Q3", "Q4 (Highest)")
     ),
-    low_chol_obese = as.numeric(chol_q == "Q1 lowest" & bmi_cat == "obese")
+    low_chol_obese = as.numeric(chol_q == "Q1 (Lowest)" & bmi_cat == "Obese"),
+    bmi_chol_group = factor(
+      paste0(bmi_cat, ", ", 
+             if_else(chol_q == "Q1 (Lowest)", "low choline", "higher choline")),
+      levels = c("Normal, higher choline", "Normal, low choline",
+                 "Overweight, higher choline", "Overweight, low choline",
+                 "Obese, higher choline", "Obese, low choline")
+    )
   )
 
 ## Survey design
@@ -47,7 +54,7 @@ des_full <- svydesign(
 
 des2 <- subset(
   des_full,
-  in_aim2 %in% TRUE & bmi_cat != "underweight" & !is.na(choline_dens)
+  in_aim2 %in% TRUE & bmi_cat != "Underweight" & !is.na(choline_dens)
 )
 des2 <- update(des2, bmi_cat = fct_drop(bmi_cat))
 
@@ -164,9 +171,9 @@ p_aim2 <- ggplot(alt_plot_data, aes(x = chol_q, y = alt, color = bmi_cat)) +
 ## Main test: low choline and obese vs. all
 ## Running for each liver enzyme
 
-fit_enzyme <- function(outcome) {
+fit_enzyme <- function(outcome, exposure = "low_chol_obese") {
   f <- as.formula(
-    paste(outcome, "~ low_chol_obese + RIDAGEYR + sex + race3 + INDFMPIR")
+    paste(outcome, "~", exposure, "+ RIDAGEYR + sex + race3 + INDFMPIR")
   )
   svyglm(f, design = des2)
 }
@@ -179,6 +186,18 @@ summary(m_alt)
 summary(m_ast)
 summary(m_ggt)
 
+## BMI category by low vs. higher choline
+
+m_alt_groups <- fit_enzyme("log_alt", "bmi_chol_group")
+m_ast_groups <- fit_enzyme("log_ast", "bmi_chol_group")
+m_ggt_groups <- fit_enzyme("log_ggt", "bmi_chol_group")
+
+## Enzymes differ across the six groups?
+
+regTermTest(m_alt_groups, ~bmi_chol_group)
+regTermTest(m_ast_groups, ~bmi_chol_group)
+regTermTest(m_ggt_groups, ~bmi_chol_group)
+
 ## Table 2: adjusted contrast across the three enzymes
 ## Bonferroni threshold for 3 outcomes: p < 0.0167
 
@@ -187,7 +206,7 @@ tidy_enzyme <- function(model) {
     model,
     include = low_chol_obese,
     exponentiate = TRUE,
-    label = list(low_chol_obese ~ "Low choline + obesity")
+    label = list(low_chol_obese ~ "Low choline + Obesity")
   )
 }
 
@@ -208,6 +227,31 @@ tbl_2 <- tbl_merge(
     )
   )
 
+## Table 3: liver enzymes by six BMI-choline groups
+
+tidy_groups <- function(model) {
+  tbl_regression(
+    model,
+    include = bmi_chol_group,
+    exponentiate = TRUE,
+    label = list(bmi_chol_group ~ "BMI category and choline intake")
+  )
+}
+
+tbl_3 <- tbl_merge(
+  list(tidy_groups(m_alt_groups), tidy_groups(m_ast_groups), tidy_groups(m_ggt_groups)),
+  tab_spanner = c("**ALT**", "**AST**", "**GGT**")
+) |>
+  modify_caption("**Table 3. Liver enzymes by BMI category and choline intake group**") |>
+  modify_footnote(
+    everything() ~ paste(
+      "Survey-weighted linear regression on log-transformed enzyme values;",
+      "estimates are ratios of geometric means.",
+      "Reference group: normal weight with choline above the lowest quartile.",
+      "Adjusted for age, sex, race and ethnicity, and family income-to-poverty ratio."
+    )
+  )
+
 ## Save
 
 dir.create("output", showWarnings = FALSE)
@@ -217,6 +261,7 @@ gtsave(tbl_1, "output/table1_enzymes_by_bmi_choline.png", vwidth = 1100, zoom = 
 
 gtsave(as_gt(tbl_2), "output/table2_adjusted_contrast.html")
 gtsave(as_gt(tbl_2), "output/table2_adjusted_contrast.png", vwidth = 900, zoom = 2)
+gtsave(as_gt(tbl_3), "output/table3_bmi_choline_groups.png", vwidth = 1100, zoom = 2)
 
 ggsave(
   "output/aim2_plot_alt.png",

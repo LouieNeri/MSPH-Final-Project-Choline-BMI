@@ -1,0 +1,35 @@
+---
+title: "Dietary Choline Intake Adequacy and Liver Enzymes by BMI in US Adults: A Cross-Sectional Analysis of NHANES 2021-2023"
+format: 
+  html: default
+  pdf: default
+  docx: default
+csl: sage-harvard.csl
+bibliography: references.bib
+---
+
+# **Abstract**
+
+
+*Keywords:* lorem ipsum
+
+{{< pagebreak >}}
+
+# **Introduction**
+
+The Adequate Intake (AI) for choline was derived from a small number of controlled depletion-repletion studies in otherwise healthy U.S. adults. In these studies, the removal of dietary choline led to hepatic steatosis and elevated serum liver enzymes that resolved with the reintroduction of dietary choline.[@fischer2007; @instituteofmedicine1998; @zeisel1991] It was then deemed that the evidence was insufficient to establish an Estimated Average Requirement, thus setting the AI at 550 mg/day for men and 425 mg/day for women, with no revisions since it was first established in 1998.\
+National data indicates that the majority of U.S. adults do not meet the AI for choline.[@freedman2024; @wallace2018] Simultaneously, the prevalence of obesity among U.S. adults have nearly doubled since the era in which the AI was established.[@decleene2026] This population-wide change raises the question of whether the AI for choline still applies to adults with higher BMIs rather than the lower BMIs in adults in whom it was originally derived.
+
+\
+The liver synthesizes phosphatidylcholine via the Phosphatidylethanolamine N-methyltransferase (PEMT), supplying approximately one-third of hepatic requirements, providing a buffer to lower dietary intake.[@vance2013]
+
+# **Methods**
+
+
+# **Results**
+
+Maecenas id luctus ligula. Cras condimentum eleifend nibh sit amet iaculis. Suspendisse placerat sollicitudin mi, vel ornare augue hendrerit ac. Nulla sed suscipit sapien. Cras pellentesque orci lectus, eu consequat enim.
+
+# **Discussion**
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan.
