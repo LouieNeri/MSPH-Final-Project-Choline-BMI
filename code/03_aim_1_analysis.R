@@ -297,7 +297,44 @@ prev_menopause <- svyby(
     )
   )
 
-table_menopause <- prev_menopause |>
+# overall for menopause
+menopause_all <- svyby(
+  ~below_ai,
+  ~menopause,
+  des_f,
+  svymean,
+  na.rm = TRUE,
+  vartype = "ci"
+) |>
+  as.data.frame() |>
+  transmute(
+    menopause,
+    bmi_cat = "All",
+    prevalence = 100 * as.numeric(below_ai),
+    ci_lower = 100 * as.numeric(ci_l),
+    ci_upper = 100 * as.numeric(ci_u)
+  ) |>
+  left_join(
+    menopause_counts |>
+      group_by(menopause) |>
+      summarise(n_below_ai = sum(n_below_ai)),
+    by = "menopause"
+  ) |>
+  mutate(
+    cell = sprintf(
+      "%d, %.1f%% (%.1f–%.1f)",
+      n_below_ai,
+      prevalence,
+      ci_lower,
+      ci_upper
+    )
+  )
+
+prev_menopause_all <- prev_menopause |>
+  mutate(bmi_cat = as.character(bmi_cat)) |>
+  bind_rows(menopause_all)
+
+table_menopause <- prev_menopause_all |>
   select(bmi_cat, menopause, cell) |>
   pivot_wider(names_from = menopause, 
               values_from = cell) |>
@@ -456,4 +493,9 @@ gt::gtsave(
   vheight = 1000,
   zoom = 2
 )
+
+#saving additional tables as rds files
+saveRDS(tbl_1, "output/aim1_table_baseline.rds")
+saveRDS(tbl_bmi, "output/aim1_table_sex_bmi.rds")
+saveRDS(tbl_aim1_f, "output/aim1_table_menopause.rds")
 

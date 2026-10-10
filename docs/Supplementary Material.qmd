@@ -1,0 +1,77 @@
+---
+title: "Supplementary Material"
+author:
+  - name: Alfonso L Neri
+    orcid: 0000-0001-7004-5464
+    corresponding: true
+    email: alneri@uab.edu
+    roles:
+      - Conceptualization
+      - Methodology
+      - Formal analysis
+      - Software
+      - Visualization
+      - Writing - original draft
+    affiliations:
+      - ref: uab-hpo
+  - name: Theodoros Giannouchos
+    orcid: 0000-0002-1574-6767
+    corresponding: false
+    roles:
+      - Supervision
+      - Methodology
+      - Writing - review & editing
+    affiliations:
+      - ref: uab-hpo
+affiliations:
+  - id: uab-hpo
+    name: University of Alabama at Birmingham
+    department: Department of Health Policy and Organization, School of Public Health
+    city: Birmingham
+    region: AL
+    country: USA
+---
+
+# STROBE Checklist: Cross-Sectional Studies
+
+| | Item No | Recommendation | Page No | Relevant text from manuscript |
+|---|---|---|---|---|
+| **Title and abstract** | 1 | (a) Indicate the study's design with a commonly used term in the title or the abstract | | "...A Cross-Sectional Analysis of NHANES 2021-2023" |
+| | | (b) Provide in the abstract an informative and balanced summary of what was done and what was found | | |
+| **Introduction** | | | | |
+| Background/rationale | 2 | Explain the scientific background and rationale for the investigation being reported | | "The Adequate Intake (AI) for choline was derived from a small number of controlled depletion-repletion studies..."; "the prevalence of obesity among U.S. adults has nearly doubled..."; "Previous research found reduced PEMT activity in the livers of adults with severe obesity..."; "these areas of choline research were identified as knowledge gaps and a priority for future research in a 2025 research symposium." |
+| Objectives | 3 | State specific objectives, including any prespecified hypotheses | | "The aims of this study were to: 1) estimate the prevalence of choline intake below the AI across BMI strata, by sex and menopausal status for women, and 2) examine the relationship between low choline intake, obesity, and serum ALT, AST, and GGT levels."; "a single a priori contrast was defined... to evaluate the hypothesis that dietary inadequacy is most important when endogenous production is also low." |
+| **Methods** | | | | |
+| Study design | 4 | Present key elements of study design early in the paper | | "We conducted a cross-sectional analysis of data from NHANES August 2021 to August 2023. NHANES... is a complex, stratified, multistage probability sample of the civilian, non-institutionalized, US population." |
+| Setting | 5 | Describe the setting, locations, and relevant dates, including periods of recruitment, exposure, follow-up, and data collection | | "NHANES August 2021 to August 2023"; "NHANES participants complete a household survey as well as a physical exam, which includes body measurements and a blood draw." |
+| Participants | 6 | (a) Give the eligibility criteria, and the sources and methods of selection of participants | | "The Aim 1 sample of adults aged ≥20 years included those who provided two good-quality 24-hour dietary recalls, had a valid 2-day food weight record, and had a measured BMI. Adults with implausible estimated energy intake were excluded..."; "The Aim 2 sample included those with a measured ALT value and those without self-reported liver disease, hepatitis B infection, and heavy alcohol use..." |
+| Variables | 7 | Clearly define all outcomes, exposures, predictors, potential confounders, and effect modifiers. Give diagnostic criteria, if applicable | | Exposure: "mean intake was compared to the sex-specific AI of 550 mg/d for men and 425 mg/d for women"; "choline was expressed as density (mg per 1,000 kcal) and divided into quartiles." Outcomes: "serum concentrations of... ALT, AST, and GGT." Modifier: BMI categories (normal 18.5 to 24.9, overweight 25.0 to 29.9, obese ≥30.0 kg/m²). Confounders: "adjusting for age, sex, race/ethnicity, and family income-to-poverty ratio." |
+| Data sources/ measurement | 8* | For each variable of interest, give sources of data and details of methods of assessment (measurement). Describe comparability of assessment methods if there is more than one group | | "Dietary intake was assessed by two 24-hour dietary recalls using the USDA Automated Multiple-Pass Method"; "Choline and total energy (kcal/d) values were derived using the USDA Food and Nutrient Database for Dietary Studies"; "BMI was calculated with measured height and weight"; "the standard biochemistry panel"; "menopausal status was derived from questions in the reproductive health questionnaire." |
+| Bias | 9 | Describe any efforts to address potential sources of bias | | "Only reliable recalls... were included"; implausible energy exclusions; "Choline density accounts for the dietary concentration of choline and removes the influence of total food intake"; liver-related exclusions because they "are known to elevate liver enzymes independent of choline intake"; survey weights; a priori contrast; Bonferroni adjustment. |
+| Study size | 10 | Explain how the study size was arrived at | | |
+| Quantitative variables | 11 | Explain how quantitative variables were handled in the analyses. If applicable, describe which groupings were chosen and why | | "choline was expressed as density (mg per 1,000 kcal) and divided into quartiles... Density was used because absolute choline intake largely tracks total food intake"; BMI grouped into normal, overweight, and obese; "The values were log-transformed to reduce the skewness of the distribution to the right." |
+| Statistical methods | 12 | (a) Describe all statistical methods, including those used to control for confounding | | "Rao-Scott chi-square tests were used to determine if proportions varied across BMI categories"; "Models were fit using the two-day dietary sample weights for each of the log-transformed liver enzymes using linear regression, adjusting for age, sex, race/ethnicity, and family income-to-poverty ratio. Regression coefficients were transformed to ratios of geometric means and 95% confidence intervals." |
+| | | (b) Describe any methods used to examine subgroups and interactions | | Aim 1 stratified "by BMI category, sex and BMI category, and for women by menopausal status and BMI category"; "A second model was fit with BMI category, low choline intake status, and their interaction to evaluate differences between low and high choline intake for each BMI category." |
+| | | (c) Explain how missing data were addressed | | |
+| | | (d) If applicable, describe analytical methods taking account of sampling strategy | | "the two-day dietary sample weights were used together with survey stratum and primary unit identifiers, following NCHS analytic guidelines. The survey design was defined using the full dataset, and subgroups were specified by subsetting the survey design... Standard errors were computed using Taylor series linearization." |
+| | | (e) Describe any sensitivity analyses | | "A secondary analysis was performed with BMI categories (normal, overweight, and obese) and a dichotomous variable for low choline intake... Six groups were formed... Joint Wald tests were performed to evaluate differences in enzymes across the six groups." |
+| **Results** | | | | |
+| Participants | 13* | (a) Report numbers of individuals at each stage of study—eg numbers potentially eligible, examined for eligibility, confirmed eligible, included in the study, completing follow-up, and analysed | | |
+| | | (b) Give reasons for non-participation at each stage | | |
+| | | (c) Consider use of a flow diagram | | |
+| Descriptive data | 14* | (a) Give characteristics of study participants (eg demographic, clinical, social) and information on exposures and potential confounders | | |
+| | | (b) Indicate number of participants with missing data for each variable of interest | | |
+| Outcome data | 15* | Report numbers of outcome events or summary measures | | |
+| Main results | 16 | (a) Give unadjusted estimates and, if applicable, confounder-adjusted estimates and their precision (eg, 95% confidence interval). Make clear which confounders were adjusted for and why they were included | | |
+| | | (b) Report category boundaries when continuous variables were categorized | | |
+| | | (c) If relevant, consider translating estimates of relative risk into absolute risk for a meaningful time period | | |
+| Other analyses | 17 | Report other analyses done—eg analyses of subgroups and interactions, and sensitivity analyses | | |
+| **Discussion** | | | | |
+| Key results | 18 | Summarise key results with reference to study objectives | | |
+| Limitations | 19 | Discuss limitations of the study, taking into account sources of potential bias or imprecision. Discuss both direction and magnitude of any potential bias | | |
+| Interpretation | 20 | Give a cautious overall interpretation of results considering objectives, limitations, multiplicity of analyses, results from similar studies, and other relevant evidence | | |
+| Generalisability | 21 | Discuss the generalisability (external validity) of the study results | | |
+| **Other information** | | | | |
+| Funding | 22 | Give the source of funding and the role of the funders for the present study and, if applicable, for the original study on which the present article is based | | |
+
+: Adapted from: von Elm E, Altman DG, Egger M, Pocock SJ, Gøtzsche PC, Vandenbroucke JP; STROBE Initiative.The Strengthening the Reporting of Observational Studies in Epidemiology (STROBE)statement: guidelines for reporting observational studies.J Clin Epidemiol. 2008 Apr;61(4):344-9. PMID: 18313558 {tbl-strobe}

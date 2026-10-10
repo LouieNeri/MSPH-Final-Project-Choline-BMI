@@ -31,7 +31,7 @@ NHANES documentation: <https://wwwn.cdc.gov/nchs/nhanes>
 Run the scripts in order:
 
 | Script | Function |
-|------------------------------------|------------------------------------|
+|----|----|
 | `01_fetch_nhanes.R` | Downloads all the nhanes datasets and combines them by study participant id. |
 | `02_clean_data.R` | Creates new variables needed for the analysis |
 | `03_aim_1_analysis.R` | Analysis for Aim 1 estimating % less than adequate intake of choline by BMI category and stratified by sex/gender and menopause status. |
