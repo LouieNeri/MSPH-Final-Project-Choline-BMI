@@ -69,104 +69,26 @@ des2$variables |>
   print()
 
 ## Table 1: liver enzymes by BMI category and choline quartile
-## Cells with SE > 40% of the estimate are suppressed (NCHS guidance)
 
-enzyme_cells <- map_dfr(
-  c(ALT = "log_alt", AST = "log_ast", GGT = "log_ggt"),
-  function(outcome) {
-    svyby(
-      reformulate(outcome),
-      ~bmi_cat + chol_q,
-      des2,
-      svymean,
-      na.rm = TRUE,
-      vartype = c("se", "ci")
-    ) |>
-      as.data.frame() |>
-      rename(est = 3) |>
-      transmute(
-        bmi_cat,
-        chol_q,
-        value = if_else(
-          se > 0.4 * abs(est),
-          "—",
-          sprintf("%.1f (%.1f, %.1f)", exp(est), exp(ci_l), exp(ci_u))
-        )
-      )
-  },
+geo_means <- function(outcome) {
+  svyby(reformulate(outcome), ~bmi_cat + chol_q, des2, svymean,
+        na.rm = TRUE, vartype = "ci") |>
+    as.data.frame() |>
+    mutate(value = sprintf("%.1f (%.1f, %.1f)",
+                           exp(.data[[outcome]]), exp(ci_l), exp(ci_u))) |>
+    select(bmi_cat, chol_q, value)
+}
+
+tbl_1 <- bind_rows(
+  ALT = geo_means("log_alt"),
+  AST = geo_means("log_ast"),
+  GGT = geo_means("log_ggt"),
   .id = "enzyme"
-)
-
-tbl_1 <- enzyme_cells |>
-  pivot_wider(names_from = chol_q, values_from = value) |>
-  arrange(enzyme, bmi_cat) |>
-  gt(groupname_col = "enzyme", rowname_col = "bmi_cat") |>
-  tab_header(
-    title = "Table 1. Serum liver enzymes by BMI category and choline intake quartile",
-    subtitle = paste0(
-      "Aim 2 Sample: US adults, NHANES August 2021–August 2023 (N = ",
-      scales::comma(n_total), ")"
-    )
-  ) |>
-  tab_spanner(
-    label = "Choline intake quartile (mg/1,000 kcal)",
-    columns = -bmi_cat
-  ) |>
-  tab_stubhead(label = "BMI category") |>
-  cols_align(align = "center", columns = -bmi_cat) |>
-  tab_footnote(
-    footnote = "Values are survey-weighted geometric means (95% CI) in U/L.",
-    locations = cells_title(groups = "title")
-  ) |>
-  tab_footnote(
-    footnote = "Estimates suppressed (—) where the standard error exceeded 40% of the estimate, per NCHS guidance.",
-    locations = cells_title(groups = "title")
-  ) |>
-  tab_options(
-    table.font.size = px(12),
-    heading.title.font.size = px(14),
-    heading.subtitle.font.size = px(11),
-    heading.align = "left",
-    column_labels.font.weight = "bold",
-    row_group.font.weight = "bold",
-    table.border.top.style = "solid",
-    table.border.bottom.style = "solid",
-    table_body.hlines.style = "none",
-    data_row.padding = px(5)
-  )
-
-## Plot
-
-alt_plot_data <- svyby(
-  ~log_alt,
-  ~bmi_cat + chol_q,
-  des2,
-  svymean,
-  na.rm = TRUE,
-  vartype = "ci"
 ) |>
-  as.data.frame() |>
-  transmute(
-    bmi_cat,
-    chol_q,
-    alt = exp(log_alt),
-    ci_lower = exp(ci_l),
-    ci_upper = exp(ci_u)
-  )
-
-p_aim2 <- ggplot(alt_plot_data, aes(x = chol_q, y = alt, color = bmi_cat)) +
-  geom_point(position = position_dodge(width = 0.5), size = 2.5) +
-  geom_errorbar(
-    aes(ymin = ci_lower, ymax = ci_upper),
-    width = 0.2,
-    position = position_dodge(width = 0.5)
-  ) +
-  labs(
-    x = NULL,
-    y = "ALT (U/L)",
-    color = "BMI category",
-    title = "ALT by choline quartile and BMI category"
-  )
+  pivot_wider(names_from = chol_q, values_from = value) |>
+  gt(groupname_col = "enzyme", rowname_col = "bmi_cat") |>
+  tab_spanner("Choline quartile (mg/1,000 kcal)", columns = starts_with("Q")) |>
+  tab_source_note("Survey-weighted geometric mean (95% CI), U/L.")
 
 ## Main test: low choline and obese vs. all
 ## Running for each liver enzyme
@@ -198,76 +120,28 @@ regTermTest(m_alt_groups, ~bmi_chol_group)
 regTermTest(m_ast_groups, ~bmi_chol_group)
 regTermTest(m_ggt_groups, ~bmi_chol_group)
 
-## Table 2: adjusted contrast across the three enzymes
-## Bonferroni threshold for 3 outcomes: p < 0.0167
+## Tables 2 and 3: adjusted ratios for each enzyme
 
-tidy_enzyme <- function(model) {
-  tbl_regression(
-    model,
-    include = low_chol_obese,
-    exponentiate = TRUE,
-    label = list(low_chol_obese ~ "Low choline + Obesity")
-  )
+enzyme_table <- function(models, var, label) {
+  models |>
+    map(\(m) tbl_regression(m, include = all_of(var), exponentiate = TRUE,
+                            label = setNames(list(label), var)) |>
+          modify_header(estimate ~ "**Ratio**")) |>
+    tbl_merge(tab_spanner = c("**ALT**", "**AST**", "**GGT**"))
 }
 
-tbl_2 <- tbl_merge(
-  list(tidy_enzyme(m_alt), tidy_enzyme(m_ast), tidy_enzyme(m_ggt)),
-  tab_spanner = c("**ALT**", "**AST**", "**GGT**")
-) |>
-  modify_caption(
-    "**Table 2. Adjusted difference in liver enzymes among adults with both low choline intake and obesity, compared with all other adults**"
-  ) |>
-  modify_footnote(
-    everything() ~ paste(
-      "Survey-weighted linear regression on log-transformed enzyme values;",
-      "estimates are ratios of geometric means.",
-      "Adjusted for age, sex, race and ethnicity, and family income-to-poverty ratio.",
-      "Low choline defined as the lowest quartile of choline density; obesity as BMI ≥ 30.",
-      "Significance set at a Bonferroni-corrected P < 0.017 for three outcomes."
-    )
-  )
+tbl_2 <- enzyme_table(list(m_alt, m_ast, m_ggt),
+                      "low_chol_obese", "Low choline and obesity")
 
-## Table 3: liver enzymes by six BMI-choline groups
-
-tidy_groups <- function(model) {
-  tbl_regression(
-    model,
-    include = bmi_chol_group,
-    exponentiate = TRUE,
-    label = list(bmi_chol_group ~ "BMI category and choline intake")
-  )
-}
-
-tbl_3 <- tbl_merge(
-  list(tidy_groups(m_alt_groups), tidy_groups(m_ast_groups), tidy_groups(m_ggt_groups)),
-  tab_spanner = c("**ALT**", "**AST**", "**GGT**")
-) |>
-  modify_caption("**Table 3. Liver enzymes by BMI category and choline intake group**") |>
-  modify_footnote(
-    everything() ~ paste(
-      "Survey-weighted linear regression on log-transformed enzyme values;",
-      "estimates are ratios of geometric means.",
-      "Reference group: normal weight with choline above the lowest quartile.",
-      "Adjusted for age, sex, race and ethnicity, and family income-to-poverty ratio."
-    )
-  )
+tbl_3 <- enzyme_table(list(m_alt_groups, m_ast_groups, m_ggt_groups),
+                      "bmi_chol_group", "BMI category and choline intake")
 
 ## Save
 
-dir.create("output", showWarnings = FALSE)
+saveRDS(tbl_1, "output/aim2_table_enzymes.rds")
+saveRDS(tbl_2, "output/aim2_table_contrast.rds")
+saveRDS(tbl_3, "output/aim2_table_groups.rds")
 
-gtsave(tbl_1, "output/table1_enzymes_by_bmi_choline.html")
-gtsave(tbl_1, "output/table1_enzymes_by_bmi_choline.png", vwidth = 1100, zoom = 2)
-
-gtsave(as_gt(tbl_2), "output/table2_adjusted_contrast.html")
-gtsave(as_gt(tbl_2), "output/table2_adjusted_contrast.png", vwidth = 900, zoom = 2)
-gtsave(as_gt(tbl_3), "output/table3_bmi_choline_groups.png", vwidth = 1100, zoom = 2)
-
-ggsave(
-  "output/aim2_plot_alt.png",
-  plot = p_aim2,
-  width = 8,
-  height = 5,
-  units = "in",
-  dpi = 300
-)
+gtsave(tbl_1, "output/aim2_table_enzymes.png", vwidth = 1000, zoom = 2)
+gtsave(as_gt(tbl_2), "output/aim2_table_contrast.png", vwidth = 1000, zoom = 2)
+gtsave(as_gt(tbl_3), "output/aim2_table_groups.png", vwidth = 1000, zoom = 2)

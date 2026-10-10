@@ -1,0 +1,130 @@
+---
+title: "Dietary Choline Intake Adequacy and Liver Enzymes by BMI in US Adults: A Cross-Sectional Analysis of NHANES 2021-2023"
+author:
+  - name: Alfonso L Neri
+    orcid: 0000-0001-7004-5464
+    corresponding: true
+    email: alneri@uab.edu
+    roles:
+      - Conceptualization
+      - Methodology
+      - Formal analysis
+      - Software
+      - Visualization
+      - Writing - original draft
+    affiliations:
+      - ref: uab-hpo
+  - name: Theodoros Giannouchos
+    orcid: 0000-0002-1574-6767
+    corresponding: false
+    roles:
+      - Supervision
+      - Methodology
+      - Writing - review & editing
+    affiliations:
+      - ref: uab-hpo
+affiliations:
+  - id: uab-hpo
+    name: University of Alabama at Birmingham
+    department: Department of Health Policy and Organization, School of Public Health
+    city: Birmingham
+    region: AL
+    country: USA
+keywords:
+  - choline
+  - Adequate Intake
+  - obesity
+  - body mass index
+  - liver enzymes
+  - dietary reference intakes
+  - NHANES
+abstract: |
+  **Background:**
+
+  **Aim:**
+
+  **Methods:**
+
+  **Results:** 
+  
+  **Conclusion:** 
+date: last-modified
+format:
+  html: default
+  pdf: default
+  docx: default
+bibliography: references.bib
+csl: sage-harvard.csl
+number-sections: false
+---
+
+# **Introduction**
+
+The Adequate Intake (AI) for choline was derived from a small number of controlled depletion-repletion studies in otherwise healthy U.S. adults. In these studies, the removal of dietary choline led to hepatic steatosis and elevated serum liver enzymes that resolved with the reintroduction of dietary choline.[@fischer2007; @instituteofmedicine1998; @zeisel1991] It was then deemed that the evidence was insufficient to establish an Estimated Average Requirement, thus setting the AI at 550 mg/day for men and 425 mg/day for women, with no revisions since it was first established in 1998.\
+National data indicates that the majority of U.S. adults do not meet the AI for choline.[@freedman2024; @wallace2018] Simultaneously, the prevalence of obesity among U.S. adults have nearly doubled since the era in which the AI was established.[@decleene2026] This population-wide change raises the question of whether the AI for choline still applies to adults with higher BMIs rather than the lower BMIs in adults in whom it was originally derived.
+
+The liver synthesizes phosphatidylcholine via the Phosphatidylethanolamine N-methyltransferase (PEMT), supplying approximately one-third of hepatic requirements, providing a buffer to lower dietary intake.[@vance2013]
+
+Thus, it is possible that obesity also influences this variation. Previous research found reduced PEMT activity in the livers of adults with severe obesity[@kartsoli2020] and a recent study reported lower circulating choline in adults with obesity than in adults of a healthy weight.[@winslow2025]
+
+If adults with obesity rely more on dietary choline because of reduced choline synthesis, there could be potentially more detrimental impacts of low choline intake on liver health in adults with obesity. Given the importance of choline needs in obesity as well as usual intake in free-living populations, these areas of choline research were identified as knowledge gaps and a priority for future research in a 2025 research symposium.[@paules2025].
+
+Is adults with obesity more likely to have choline intake below the AI than those with lower body weight? If there is an association between choline intake and BMI, this suggests that the choline status difference between adults with obesity and those of other weights could be due to the diet. If not, we can explore other potential causes for the status difference. Is low choline intake more strongly associated with biomarkers of liver injury in adults with obesity? While a recent study examining the association of choline with liver enzymes in the National Health and Nutrition Examination Survey (NHANES)[@wallace2025a] was conducted, it included a BMI covariate with a focus on the role of genotype modification. However, to our knowledge, the overarching questions have not been explored in a representative sample of US adults.
+
+The aims of this study were to: 1) estimate the prevalence of choline intake below the AI across BMI strata, by sex and menopausal status for women, and 2) examine the relationship between low choline intake, obesity, and serum alanine aminotransferase (ALT), aspartate aminotransferase (AST), and gamma-glutamyl transferase (GGT) levels.
+
+# **Methods**
+
+## Study design and population
+
+We conducted a cross-sectional analysis of data from NHANES August 2021 to August 2023. NHANES is conducted by the National Center for Health Statistics (NCHS) and is a complex, stratified, multistage probability sample of the civilian, non-institutionalized, US population.[@nhanes_data] NHANES participants complete a household survey as well as a physical exam, which includes body measurements and a blood draw. Participants complete a household interview and a physical examination that includes body measurements and a blood draw.
+
+The survey was approved by the NCHS Ethics Review Board, and all participants provided written informed consent. This secondary analysis of publicly available, deidentified data was not subject to ethics review. Reporting was conducted in accordance with the Strengthening the Reporting of Observational Studies in Epidemiology (STROBE) guidelines for cross-sectional studies.[@von2007]
+
+## Dietary assessment
+
+Dietary intake was assessed by two 24-hour dietary recalls using the USDA Automated Multiple-Pass Method [@moshfegh2008]. Choline and total energy (kcal/d) values were derived using the USDA Food and Nutrient Database for Dietary Studies.[@usda_fndds] Only reliable recalls from NCHS, meeting the minimum data quality standards on both days, were included in the analyses and intake was calculated as the average of the two recall days.
+
+## Exposures
+
+For Aim 1, mean intake was compared to the sex-specific AI of 550 mg/d for men and 425 mg/d for women.[@instituteofmedicine1998]. We classified participants as either below the AI or above the AI.
+
+For Aim 2, choline was expressed as density (mg per 1,000 kcal) and divided into quartiles within the Aim 2 sample. Density was used because absolute choline intake largely tracks total food intake. In this sample, absolute intake was moderately correlated with energy intake (r = 0.66), while density was not (r = -0.13). Expressing intake as density separates the choline content of the diet from the amount of food eaten. Quartile cut-points were \[add cut-points\] mg per 1,000 kcal.
+
+In Aim 2, choline intake was modeled as the density of choline intake (mg/1,000 kcal) and also divided into four quartiles in the Aim 2 sample. Choline density was used because choline intake is strongly correlated with other measures of food intake, including total energy intake (r = 0.66), in this population. In contrast, choline density was not correlated with energy intake (r = -0.13).Choline density accounts for the dietary concentration of choline and removes the influence of total food intake. In the Aim 2 sample, quartile cutoffs were 121.52, 156.53, 202.23.
+
+BMI was calculated from measured height and weight and grouped as normal (18.5 to 24.9 kg/m²), overweight (25.0 to 29.9 kg/m²), or obese (30.0 kg/m² or greater). Underweight adults (BMI below 18.5 kg/m²) were excluded from BMI comparisons as the group was too small for stable weighted estimates.
+
+BMI was calculated with measured height and weight and categorized as normal weight (18.5 to 24.9 kg/m²), overweight (25.0 to 29.9 kg/m²), and obese (≥(30.0 kg/m²) in both Aims. Underweight adults (BMI \<18.5 kg/m²) were not analyzed analyses because the number of cases was too low for a stable weighted estimate.
+
+## Outcomes
+
+The outcome in Aim 1 was inadequate choline intake (dietary intake \<AI). The outcomes for Aim 2 were serum concentrations of the liver enzymes alanine aminotransferase (ALT), aspartate aminotransferase (AST), and gamma glutamyltransferase (GGT) in the standard biochemistry panel. The values were log-transformed to reduce the skewness of the distribution to the right.
+
+## Analyzed Samples
+
+In adult women, menopausal status was derived from questions in the reproductive health questionnaire. [@nchs_rhq_l]. Women who reported not having menstrual periods for 1 year or longer due to menopause were coded as postmenopausal, and those who still menstruated regularly were coded as premenopausal. Those who did not have periods because of hysterectomy were assigned no status (that is, "not applicable") because the public use file for this cycle does not include information to determine whether ovaries were present.
+
+The Aim 1 sample of adults aged ≥20 years included those who provided two good-quality 24-hour dietary recalls, had a valid 2-day food weight record, and had a measured BMI. Adults with implausible estimated energy intake were excluded from analyses: those with mean intake \<500 kcal/day or \>8,000 kcal/day for men, and \<500 kcal/day or \>5,500 kcal/day for women.
+
+The Aim 2 sample included those with a measured ALT value and those without self-reported liver disease, hepatitis B infection, and heavy alcohol use, defined as \>2 drinks/day for men and \>1 drink/day for women. Heavy alcohol use and liver disease are known to elevate liver enzymes independent of choline intake. Reported hepatitis C infection was not included in the public use file for this cycle.
+
+All exclusions were maintained as flags rather than creating a subset of the data so that the full sample could be used to specify the survey design.
+
+## Statistical analysis
+
+In both aims, the two-day dietary sample weights were used together with survey stratum and primary unit identifiers, following NCHS analytic guidelines.[@nchs_analytic_guidelines]. The survey design was defined using the full dataset, and subgroups were specified by subsetting the survey design, which maintained the full variance estimation. Standard errors were computed using Taylor series linearization.
+
+For Aim 1, the proportion of adults with inadequate choline intake (\<AI) was estimated using the two-day dietary sample weights for the full sample and stratified by BMI category, sex and BMI category, and for women by menopausal status and BMI category. Rao-Scott chi-square tests were used to determine if proportions varied across BMI categories.
+
+For Aim 2, there were only 15 design degrees of freedom in this cycle, which limits the ability to estimate complex models. For example, testing for the main effects of choline quartile and BMI and their interaction would overfit the data and is therefore not pursued. Instead, a single a priori contrast was defined between adults in the lowest quartile of choline density and obese adults with all other subjects to evaluate the hypothesis that dietary inadequacy is most important when endogenous production is also low. Models were fit using the two-day dietary sample weights for each of the log-transformed liver enzymes using linear regression, adjusting for age, sex, race/ethnicity, and family income-to-poverty ratio. Regression coefficients were transformed to ratios of geometric means and 95% confidence intervals. Because there were three outcomes, Bonferroni adjustment was used to evaluate statistical significance, resulting in a required level of significance of P \< 0.017.
+
+A secondary analysis was performed with BMI categories (normal, overweight, and obese) and a dichotomous variable for low choline intake, where the reference group was normal BMI adults with high choline intake. Six groups were formed, where each was a combination of BMI category and low-choline intake status. Joint Wald tests were performed to evaluate differences in enzymes across the six groups. A second model was fit with BMI category, low choline intake status, and their interaction to evaluate differences between low and high choline intake for each BMI category. Estimates with a standard error of more than 40% of the estimate were not presented.
+
+The code and data for the analyses is available at <https://github.com/LouieNeri/choline-bmi-nhanes.> Analyses were performed using R version 4.3.3 \[29\] using the following packages: nhanesA,[@nhanesA] survey,[@survey2004; @survey2024] tidyverse,[@tidyverse], and gtsummary.[@gtsummary]
+
+# **Results**
+
+# **Discussion**
+
+# Conclusion

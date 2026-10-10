@@ -19,6 +19,24 @@ des <- svydesign(
   nest = TRUE
 )
 
+# Overall prevalence below Ai
+
+overall_prev <- svymean(~below_ai, 
+                        des, 
+                        na.rm = TRUE)
+
+overall_prev
+confint(overall_prev)
+
+# Weighted population size
+sum(weights(des))
+
+# proportions AI differ by BMI category
+svychisq(~below_ai + bmi_cat, des)
+svychisq(~below_ai + bmi_cat, subset(des, sex == "Female"))
+svychisq(~below_ai + bmi_cat, subset(des, sex == "Male"))
+
+
 # Sex and BMI category
 
 # Counts below the AI by sex and BMI category
@@ -160,7 +178,29 @@ prev_bmi <- svyby(
     )
   )
 
-tbl_bmi <- prev_bmi |>
+# Add an overall row for total BMI
+overall_row <- tibble(
+  bmi_cat = "All",
+  prevalence = 100 * as.numeric(coef(overall_prev)),
+  ci_lower = 100 * confint(overall_prev)[1],
+  ci_upper = 100 * confint(overall_prev)[2],
+  n_below_ai = sum(bmi_counts$n_below_ai)
+) |>
+  mutate(
+    overall = sprintf(
+      "%d, %.1f%% (%.1f–%.1f)",
+      n_below_ai,
+      prevalence,
+      ci_lower,
+      ci_upper
+    )
+  )
+
+prev_bmi_all <- prev_bmi |>
+  mutate(bmi_cat = as.character(bmi_cat)) |>
+  bind_rows(overall_row)
+
+tbl_bmi <- prev_bmi_all |>
   select(bmi_cat, overall) |>
   gt() |>
   tab_header(
@@ -416,3 +456,4 @@ gt::gtsave(
   vheight = 1000,
   zoom = 2
 )
+
